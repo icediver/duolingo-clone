@@ -23,7 +23,7 @@ export default async function LessonPage() {
 		redirect('/learn');
 	}
 
-	const initialPerentage =
+	const initialPercentage =
 		(lesson.challenges.filter((challenge) => challenge.completed).length /
 			lesson.challenges.length) *
 		100;
@@ -31,9 +31,9 @@ export default async function LessonPage() {
 	return (
 		<Quiz
 			initialLessonId={lesson.id}
-			intialLessonChallenges={lesson.challenges}
+			initialLessonChallenges={lesson.challenges}
 			initialHearts={userProgress.hearts}
-			initialPercentage={initialPerentage}
+			initialPercentage={initialPercentage}
 			userSubscription={null}
 		/>
 	);
