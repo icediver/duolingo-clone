@@ -25,8 +25,8 @@ const main = async () => {
 		await db.insert(schema.courses).values([
 			{
 				id: 1,
-				title: 'Croatian',
-				imageSrc: '/hr.svg',
+				title: 'Spanish',
+				imageSrc: '/es.svg',
 			},
 			{
 				id: 2,
@@ -40,8 +40,8 @@ const main = async () => {
 			},
 			{
 				id: 4,
-				title: 'Spanish',
-				imageSrc: '/es.svg',
+				title: 'Croatian',
+				imageSrc: '/hr.svg',
 			},
 			{
 				id: 5,
