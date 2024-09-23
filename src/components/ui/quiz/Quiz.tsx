@@ -2,6 +2,10 @@
 
 import { useState } from 'react';
 
+import { Challenge } from '../challenge/Challenge';
+import { QuestionBubble } from '../question-bubble/QuestionBubble';
+
+import { LessonFooter } from './lesson-footer/LessonFooter';
 import { LessonHeader } from './lesson-header/LessonHeader';
 import { challengeOptions, challenges } from '@/db/schema';
 
@@ -31,7 +35,18 @@ export function Quiz({
 		);
 		return uncompletedIndex === -1 ? 0 : uncompletedIndex;
 	});
+
+	const [selectedOption, setSelectedOption] = useState<number>();
+	const [status, setStatus] = useState<'correct' | 'wrong' | 'none'>('none');
+
 	const challenge = challenges[activeIndex];
+	const options = challenge?.challengeOptions ?? [];
+
+	const onSelect = (id: number) => {
+		if (status !== 'none') return;
+
+		setSelectedOption(id);
+	};
 
 	const title =
 		challenge.type === 'ASSIST'
@@ -51,10 +66,27 @@ export function Quiz({
 						<h1 className="text-center text-lg font-bold text-neutral-700 lg:text-start lg:text-3xl">
 							{title}
 						</h1>
-						<div></div>
+						<div>
+							{challenge.type === 'ASSIST' && (
+								<QuestionBubble question={challenge.question} />
+							)}
+							<Challenge
+								options={options}
+								onSelect={onSelect}
+								status={status}
+								selectedOption={selectedOption}
+								disabled={false}
+								type={challenge.type}
+							/>
+						</div>
 					</div>
 				</div>
 			</div>
+			<LessonFooter
+				disabled={!selectedOption}
+				status={status}
+				onCheck={() => {}}
+			/>
 		</>
 	);
 }
