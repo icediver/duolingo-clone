@@ -47,6 +47,7 @@ export function LessonFooter({ onCheck, status, disabled, lessonId }: Props) {
 						variant={'default'}
 						size={isMobile ? 'sm' : 'lg'}
 						onClick={() => (window.location.href = `/lessons/${lessonId}`)}
+						className={''}
 					>
 						Practice again
 					</Button>

@@ -80,6 +80,7 @@ export const getCourseById = cache(async (courseId: number) => {
 export const getCourseProgress = cache(async () => {
 	const { userId } = auth();
 	const userProgress = await getUserProgress();
+
 	if (!userId || !userProgress?.activeCourseId) {
 		return null;
 	}
@@ -106,7 +107,7 @@ export const getCourseProgress = cache(async () => {
 	const firstUncompletedLesson = unitsInActiveCourse
 		.flatMap((unit) => unit.lessons)
 		.find((lesson) => {
-			//TODO: If something does not work, check the last if clause
+			//TODO: If something does not work, check the last if c elause
 			return lesson.challenges.some((challenge) => {
 				return (
 					!challenge.challengeProgress ||
