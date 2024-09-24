@@ -3,6 +3,8 @@ import type { Metadata } from 'next';
 import { Nunito } from 'next/font/google';
 
 import { ExitModal } from '@/components/ui/modals/exit-modal/ExitModal';
+import { HeartsModal } from '@/components/ui/modals/hearts-modal/HeartsModal';
+import { PracticeModal } from '@/components/ui/modals/practice-modal/PracticeModal';
 import { Toaster } from '@/components/ui/sonner';
 
 import './globals.css';
@@ -24,6 +26,8 @@ export default function RootLayout({
 				<body className={`${font.className}`}>
 					<Toaster />
 					<ExitModal />
+					<HeartsModal />
+					<PracticeModal />
 					{children}
 				</body>
 			</html>

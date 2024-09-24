@@ -4,8 +4,11 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState, useTransition } from 'react';
 import Confetti from 'react-confetti';
-import { useAudio, useWindowSize } from 'react-use';
+import { useAudio, useMount, useWindowSize } from 'react-use';
 import { toast } from 'sonner';
+
+import { useHeartsModal } from '@/store/use-hearts-modal';
+import { usePracticeModal } from '@/store/use-practice-modal';
 
 import { Challenge } from '../challenge/Challenge';
 import { QuestionBubble } from '../question-bubble/QuestionBubble';
@@ -34,8 +37,16 @@ export function Quiz({
 	initialLessonChallenges,
 	userSubscription,
 }: Props) {
+	const { open: openHeartsModal } = useHeartsModal();
+	const { open: openPracticeModal } = usePracticeModal();
+
+	useMount(() => {
+		if (initialPercentage === 100) {
+			openPracticeModal();
+		}
+	});
+
 	const { width, height } = useWindowSize();
-	console.log(width, height);
 
 	const router = useRouter();
 
@@ -51,7 +62,9 @@ export function Quiz({
 
 	const [lessonId, setLessonId] = useState(initialLessonId);
 	const [hearts, setHearts] = useState(initialHearts);
-	const [percentage, setPercentage] = useState(initialPercentage);
+	const [percentage, setPercentage] = useState(() => {
+		return initialPercentage === 100 ? 0 : initialPercentage;
+	});
 	const [challenges] = useState(initialLessonChallenges);
 	const [activeIndex, setActiveIndex] = useState(() => {
 		const uncompletedIndex = challenges.findIndex(
@@ -65,7 +78,6 @@ export function Quiz({
 
 	const challenge = challenges[activeIndex];
 	const options = challenge?.challengeOptions ?? [];
-	challenges.map((challenge) => console.log(challenge.challengeOptions));
 
 	const onNext = () => {
 		setActiveIndex((current) => current + 1);
@@ -99,7 +111,7 @@ export function Quiz({
 				upsertChallengeProgress(challenge.id)
 					.then((response) => {
 						if (response?.error === 'hearts') {
-							console.error('Missing hearts');
+							openHeartsModal();
 							return;
 						}
 
