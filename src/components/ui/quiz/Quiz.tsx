@@ -18,7 +18,7 @@ import { LessonHeader } from './lesson-header/LessonHeader';
 import { ResultCard } from './result-card/ResultCard';
 import { upsertChallengeProgress } from '@/actions/challenge-progress';
 import { reduceHearts } from '@/actions/user-progres';
-import { challengeOptions, challenges } from '@/db/schema';
+import { challengeOptions, challenges, userSubscriptions } from '@/db/schema';
 
 type Props = {
 	initialPercentage: number;
@@ -28,7 +28,11 @@ type Props = {
 		completed: boolean;
 		challengeOptions: (typeof challengeOptions.$inferSelect)[];
 	})[];
-	userSubscription: any; //TODO: Replace with subscription DB type
+	userSubscription:
+		| (typeof userSubscriptions.$inferSelect & {
+				isActive: boolean;
+		  })
+		| null;
 };
 export function Quiz({
 	initialPercentage,
