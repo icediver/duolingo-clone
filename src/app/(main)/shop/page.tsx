@@ -7,7 +7,7 @@ import { ShopItems } from '@/components/ui/shop-items/ShopItems';
 import { StickyWrapper } from '@/components/ui/sticky-wraper/StickyWrapper';
 import { UserProgress } from '@/components/ui/user-progress/UserProgress';
 
-import { getUserProgress } from '@/db/queries';
+import { getUserProgress, getUserSubscription } from '@/db/queries';
 
 export const metadata: Metadata = {
 	title: 'Shop',
@@ -16,12 +16,18 @@ export const metadata: Metadata = {
 
 export default async function Page() {
 	const userProgressData = getUserProgress();
+	const userSubscriptionsData = getUserSubscription();
 
-	const [userProgress] = await Promise.all([userProgressData]);
+	const [userProgress, userSubscription] = await Promise.all([
+		userProgressData,
+		userSubscriptionsData,
+	]);
 
 	if (!userProgress || !userProgress.activeCourse) {
 		redirect('/courses');
 	}
+
+	const isPro = !!userSubscription?.isActive;
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
@@ -30,7 +36,7 @@ export default async function Page() {
 					activeCourse={userProgress.activeCourse}
 					hearts={userProgress.hearts}
 					points={userProgress.points}
-					hasActiveSubscription={false}
+					hasActiveSubscription={isPro}
 				/>
 			</StickyWrapper>
 			<FeedWrapper>
@@ -45,7 +51,7 @@ export default async function Page() {
 					<ShopItems
 						hearts={userProgress.hearts}
 						points={userProgress.points}
-						hasActiveSubscription={false}
+						hasActiveSubscription={isPro}
 					/>
 				</div>
 			</FeedWrapper>

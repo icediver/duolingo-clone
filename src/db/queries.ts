@@ -8,6 +8,7 @@ import {
 	lessons,
 	units,
 	userProgress,
+	userSubscriptions,
 } from './schema';
 import db from '@/db/drizzle';
 
@@ -177,4 +178,24 @@ export const getLessonPercentage = cache(async () => {
 	const percentage = Math.round((completedChallenges / totalChallenges) * 100);
 
 	return percentage;
+});
+
+const DAY_IN_MS = 86_400_000;
+
+export const getUserSubscription = cache(async () => {
+	const { userId } = auth();
+	if (!userId) return null;
+	const data = await db.query.userSubscriptions.findFirst({
+		where: eq(userSubscriptions.userId, userId),
+	});
+
+	if (!data) return null;
+
+	const isActive =
+		data.stripePriceId &&
+		data.stripeCurrentPeriodEnd?.getTime() + DAY_IN_MS > Date.now();
+	return {
+		...data,
+		isActive: !!isActive,
+	};
 });
