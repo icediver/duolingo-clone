@@ -3,6 +3,8 @@ import Image from 'next/image';
 import { redirect } from 'next/navigation';
 
 import { FeedWrapper } from '@/components/ui/feed-wrapper/FeedWrapper';
+import { Promo } from '@/components/ui/promo/Promo';
+import { Quests } from '@/components/ui/quests/Promo';
 import { ShopItems } from '@/components/ui/shop-items/ShopItems';
 import { StickyWrapper } from '@/components/ui/sticky-wraper/StickyWrapper';
 import { UserProgress } from '@/components/ui/user-progress/UserProgress';
@@ -38,6 +40,9 @@ export default async function ShopPage() {
 					points={userProgress.points}
 					hasActiveSubscription={isPro}
 				/>
+
+				{isPro && <Promo />}
+				<Quests points={userProgress.points} />
 			</StickyWrapper>
 			<FeedWrapper>
 				<div className="flex w-full flex-col items-center">

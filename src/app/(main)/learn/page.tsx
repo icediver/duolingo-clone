@@ -1,6 +1,8 @@
 import { redirect } from 'next/navigation';
 
 import { FeedWrapper } from '@/components/ui/feed-wrapper/FeedWrapper';
+import { Promo } from '@/components/ui/promo/Promo';
+import { Quests } from '@/components/ui/quests/Promo';
 import { StickyWrapper } from '@/components/ui/sticky-wraper/StickyWrapper';
 import { Unit } from '@/components/ui/unit/Unit';
 import { UserProgress } from '@/components/ui/user-progress/UserProgress';
@@ -45,6 +47,8 @@ export default async function LearnPage() {
 		redirect('/courses');
 	}
 
+	const isPro = !!userSubscription?.isActive;
+
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
 			<StickyWrapper>
@@ -52,8 +56,10 @@ export default async function LearnPage() {
 					activeCourse={userProgress.activeCourse}
 					hearts={userProgress.hearts}
 					points={userProgress.points}
-					hasActiveSubscription={!!userSubscription?.isActive}
+					hasActiveSubscription={isPro}
 				/>
+				{isPro && <Promo />}
+				<Quests points={userProgress.points} />
 			</StickyWrapper>
 			<FeedWrapper>
 				<Header title={userProgress.activeCourse.title} />

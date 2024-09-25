@@ -4,6 +4,8 @@ import { redirect } from 'next/navigation';
 
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { FeedWrapper } from '@/components/ui/feed-wrapper/FeedWrapper';
+import { Promo } from '@/components/ui/promo/Promo';
+import { Quests } from '@/components/ui/quests/Promo';
 import { Separator } from '@/components/ui/separator';
 import { StickyWrapper } from '@/components/ui/sticky-wraper/StickyWrapper';
 import { UserProgress } from '@/components/ui/user-progress/UserProgress';
@@ -45,6 +47,8 @@ export default async function LeaderBoardPage() {
 					points={userProgress.points}
 					hasActiveSubscription={isPro}
 				/>
+				{isPro && <Promo />}
+				<Quests points={userProgress.points} />
 			</StickyWrapper>
 			<FeedWrapper>
 				<div className="flex w-full flex-col items-center">

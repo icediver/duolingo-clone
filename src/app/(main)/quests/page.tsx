@@ -4,35 +4,17 @@ import { redirect } from 'next/navigation';
 
 import { FeedWrapper } from '@/components/ui/feed-wrapper/FeedWrapper';
 import { Progress } from '@/components/ui/progress';
+import { Promo } from '@/components/ui/promo/Promo';
 import { StickyWrapper } from '@/components/ui/sticky-wraper/StickyWrapper';
 import { UserProgress } from '@/components/ui/user-progress/UserProgress';
 
+import { quests } from '@/constants/constants';
 import { getUserProgress, getUserSubscription } from '@/db/queries';
 
 export const metadata: Metadata = {
 	title: 'Shop',
 	description: '',
 };
-
-const quests = [
-	{
-		title: 'Earn 20 XP',
-		value: 20,
-	},
-
-	{
-		title: 'Earn 50 XP',
-		value: 50,
-	},
-	{
-		title: 'Earn 100 XP',
-		value: 100,
-	},
-	{
-		title: 'Earn 500 XP',
-		value: 500,
-	},
-];
 
 export default async function QuestsPage() {
 	const userProgressData = getUserProgress();
@@ -58,6 +40,7 @@ export default async function QuestsPage() {
 					points={userProgress.points}
 					hasActiveSubscription={isPro}
 				/>
+				{isPro && <Promo />}
 			</StickyWrapper>
 			<FeedWrapper>
 				<div className="flex w-full flex-col items-center">
